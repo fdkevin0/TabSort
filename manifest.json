@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "TabSort",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "One-click tab sorting by domain cluster and URL, keeping tab groups and site positions intact.",
   "homepage_url": "https://github.com/fdkevin0/TabSort",
   "minimum_chrome_version": "92",

@@ -1,0 +1,44 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Run tests
+        run: npm test
+      - name: Verify manifest version matches tag
+        run: |
+          MANIFEST_VERSION=$(node -p "JSON.parse(require('node:fs').readFileSync('manifest.json', 'utf8')).version")
+          TAG_VERSION="${GITHUB_REF_NAME#v}"
+          if [ "$MANIFEST_VERSION" != "$TAG_VERSION" ]; then
+            echo "Version mismatch: manifest=$MANIFEST_VERSION tag=$TAG_VERSION"
+            exit 1
+          fi
+      - name: Package extension
+        run: |
+          zip -r "TabSort-${GITHUB_REF_NAME}.zip" \
+            manifest.json \
+            background.js \
+            sort.js \
+            icons/icon-16.png \
+            icons/icon-32.png \
+            icons/icon-48.png \
+            icons/icon-128.png \
+            LICENSE \
+            README.md
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release create "$GITHUB_REF_NAME" "TabSort-${GITHUB_REF_NAME}.zip" --generate-notes

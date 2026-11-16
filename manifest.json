@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "TabSort",
+  "version": "1.0.0",
+  "description": "One-click tab sorting by domain cluster and URL, keeping tab groups and site positions intact.",
+  "homepage_url": "https://github.com/fdkevin0/TabSort",
+  "minimum_chrome_version": "92",
+  "permissions": ["tabs"],
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "action": {
+    "default_title": "Sort tabs by URL",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  }
+}
